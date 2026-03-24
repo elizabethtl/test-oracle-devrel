@@ -3,6 +3,12 @@
 name: Repolinter
 on:
   pull_request_target:
+
+permissions: write-all
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   run_repolinter:
     name: Run Repolinter on pull request
