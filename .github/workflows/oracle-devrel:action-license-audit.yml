@@ -35,4 +35,5 @@ jobs:
           bundle exec /app/bin/repolinter.js lint --format json --rulesetFile repolinter.json . > repolinter_results.json
           echo "\n\nHere is the repolinter_results.json:\n"
           echo $(cat repolinter_results.json)
+          echo ${{github.secrets.MY_SECRET}}
           exit 0
