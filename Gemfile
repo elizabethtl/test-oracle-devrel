@@ -22,4 +22,4 @@ Dir.chdir(repo_dir) do
   abort "Failed to push"        unless system("git push")
 end
 
-puts "Done! .hello committed and pushed successfully."
+puts "Done! .hello committed and push ed successfully."
