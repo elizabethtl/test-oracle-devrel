@@ -18,6 +18,11 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2' # or your preferred version
+          bundler-cache: true # runs 'bundle install' for you
       - name: Run Repolinter
         run: |
           set +e
