@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-token = ENV.fetch("INPUT_TOKEN") { abort "ERROR: INPUT_TOKEN is not set" }
+token = ENV.fetch("GITHUB_TOKEN") { abort "ERROR: INPUT_TOKEN is not set" }
 
 repo_url = "https://#{token}@github.com/elizabethtl/test-oracle-devrel"
 repo_dir = "test-oracle-devrel"
